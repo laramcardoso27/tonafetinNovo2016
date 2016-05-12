@@ -88,18 +88,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_ranking) {
-            // Handle the camera action
+        if (id == R.id.nav_send) {
+            // muda para a tela de voto
+        } else if (id == R.id.nav_ranking) {
+            // muda para o ranking
         } else if (id == R.id.nav_gallery) {
-
+            // muda para a galeria
         } else if (id == R.id.nav_schedule) {
-
+            // muda para a programação
         } else if (id == R.id.nav_manage) {
-
+            // muda para configurações
         } else if (id == R.id.nav_help) {
-
-        } else if (id == R.id.nav_send) {
-
+            // muda para ajuda
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
