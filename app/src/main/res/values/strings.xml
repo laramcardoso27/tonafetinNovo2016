@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Configurações</string>
+    <string name="action_about">Sobre</string>
 
     <string name="vote_now">Vote agora!</string>
 </resources>
