@@ -5,4 +5,5 @@
     <item name="ic_menu_ranking" type="drawable">@drawable/ic_menu_ranking</item>
     <item name="ic_menu_date" type="drawable">@drawable/ic_menu_date</item>
     <item name="ic_menu_help" type="drawable">@drawable/ic_menu_help</item>
+    <item name="ic_menu_home" type="drawable">@drawable/ic_menu_home</item>
 </resources>

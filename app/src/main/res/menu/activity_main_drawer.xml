@@ -4,6 +4,10 @@
     <group  android:id="@+id/nav_maintitle"
             android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="Página inicial" />
+        <item
             android:id="@+id/nav_send"
             android:icon="@drawable/ic_menu_send"
             android:title="Vote agora!" />
