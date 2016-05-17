@@ -5,6 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_about">Sobre</string>
-
     <string name="vote_now">Vote agora!</string>
+
+    <string name="facebook_app_id">1149292355132945</string>
 </resources>
