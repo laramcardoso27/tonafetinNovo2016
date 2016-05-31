@@ -8,4 +8,5 @@
     <string name="vote_now">Vote agora!</string>
 
     <string name="facebook_app_id">1149292355132945</string>
+    <string name="fb_login_protocol_scheme">fbAPP_ID</string>
 </resources>
