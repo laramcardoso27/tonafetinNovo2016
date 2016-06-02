@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_number": "1075066113271",
+    "firebase_url": "https://tonafetin2016.firebaseio.com",
+    "project_id": "tonafetin2016",
+    "storage_bucket": "tonafetin2016.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075066113271:android:2024c281a1e9eae8",
+        "android_client_info": {
+          "package_name": "br.com.cp2ejr.tonafetin2016"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1075066113271-ml116u3i1oid72ma6persgrm0q17f538.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.cp2ejr.tonafetin2016",
+            "certificate_hash": "BC58EE09C92BF14D5613E248EB771B9A70F1F395"
+          }
+        },
+        {
+          "client_id": "1075066113271-6qf74bhm08607drm43561rm6jqbd2kau.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [{ "current_key": "" }],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1075066113271-6qf74bhm08607drm43561rm6jqbd2kau.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
