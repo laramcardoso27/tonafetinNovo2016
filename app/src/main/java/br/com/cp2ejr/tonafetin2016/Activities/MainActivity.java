@@ -9,6 +9,7 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
@@ -206,16 +208,43 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+
+        FrameLayout layout = (FrameLayout) findViewById(R.id.main_frame);
+
         if (id == R.id.nav_home) {
-            // muda para a tela de voto
+            // muda para a tela principal
+
+            layout.setVisibility(View.INVISIBLE);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new MainFragment()).commit();
+
+
         } else if (id == R.id.nav_send) {
-            // muda para o ranking
+            // muda para o voto
+            layout.setVisibility(View.INVISIBLE);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new VoteFragment()).commit();
         } else if (id == R.id.nav_ranking) {
             // muda para o ranking
+            layout.setVisibility(View.INVISIBLE);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new RankingFragment()).commit();
         } else if (id == R.id.nav_gallery) {
             // muda para a galeria
+            layout.setVisibility(View.INVISIBLE);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new GalleryFragment()).commit();
         } else if (id == R.id.nav_schedule) {
             // muda para a programação
+            layout.setVisibility(View.INVISIBLE);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new ScheduleFragment()).commit();
         } else if (id == R.id.nav_manage) {
             // muda para configurações
         } else if (id == R.id.nav_help) {
