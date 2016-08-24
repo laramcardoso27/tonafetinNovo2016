@@ -12,10 +12,6 @@
     tools:context=".Activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <!--conteúdo aqui-->
-
-
-
     <FrameLayout
     android:id="@+id/main_frame"
     android:layout_width="wrap_content"
@@ -38,7 +34,6 @@
                 android:textSize="24sp"
                 android:background="@android:color/holo_orange_dark"
                 android:textColor="@android:color/white"
-                android:enabled="false"
                 android:visibility="invisible"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
@@ -71,9 +66,12 @@
 
     </FrameLayout>
 
+
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </FrameLayout>
+
+
 </RelativeLayout>

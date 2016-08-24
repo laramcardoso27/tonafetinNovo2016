@@ -1,11 +1,13 @@
 package br.com.cp2ejr.tonafetin2016.Activities;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,7 +26,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -50,6 +55,9 @@ import br.com.cp2ejr.tonafetin2016.Controls.HTTPControl;
 import br.com.cp2ejr.tonafetin2016.Models.User;
 import br.com.cp2ejr.tonafetin2016.R;
 
+import static br.com.cp2ejr.tonafetin2016.R.id.rankingrelativelayout;
+import static br.com.cp2ejr.tonafetin2016.R.id.voterelativelayout;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -57,13 +65,18 @@ public class MainActivity extends AppCompatActivity
     User user;
     CallbackManager callbackManager;
     TextView tvUserName;
+    ImageView ivUserFacebook;
+    Button btVoteNow;
+    FrameLayout layout;
+    String logSuccess;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(getApplication());
-
         setContentView(R.layout.activity_main);
 
         user = new User();
@@ -76,12 +89,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = LayoutInflater.from(this).inflate(R.layout.nav_header_main,
                 navigationView, false);
-        navigationView.addHeaderView(headerView);
 
         tvUserName = (TextView) headerView.findViewById(R.id.tvUserName);
+        ivUserFacebook = (ImageView) headerView.findViewById(R.id.ivUserFacebook);
 
         navigationView.setNavigationItemSelectedListener(this);
 
+        btVoteNow = (Button) findViewById(R.id.btnVoteNow);
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList("public_profile"));
 
@@ -89,6 +103,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onSuccess(LoginResult loginResult) {
                 loginButton.setVisibility(View.INVISIBLE);
+                btVoteNow.setVisibility(View.VISIBLE);
+                logSuccess = "YES";
 
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
@@ -138,20 +154,29 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public void onCancel() {
-
-            }
+            public void onCancel() {}
 
             @Override
             public void onError(FacebookException error) {
-
+                if(checkConnection()) {
+                    Toast.makeText(getApplicationContext(), "Erro ao fazer login com o Facebook. Favor tentar novamente.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Erro ao fazer login com o Facebook. Favor verificar a conexão com a internet.", Toast.LENGTH_LONG).show();
+                }
             }
+
         });
 
         Button btnVoteNow = (Button) findViewById(R.id.btnVoteNow);
         btnVoteNow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //vai pra tela de voto
+
+                layout = (FrameLayout) findViewById(R.id.main_frame);
+                android.app.FragmentManager fragmentManager = getFragmentManager();
+                layout.setVisibility(View.INVISIBLE);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new VoteFragment()).commit();
             }
         });
 
@@ -162,7 +187,20 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
     }
 
+    private boolean checkConnection() {
+        boolean connected;
 
+        ConnectivityManager conectivtyManager = (ConnectivityManager) getApplicationContext().
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (conectivtyManager.getActiveNetworkInfo() != null
+                && conectivtyManager.getActiveNetworkInfo().isAvailable()
+                && conectivtyManager.getActiveNetworkInfo().isConnected()) {
+            connected = true;
+        } else connected = false;
+
+        return connected;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -193,60 +231,63 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        layout = (FrameLayout) findViewById(R.id.main_frame);
         android.app.FragmentManager fragmentManager = getFragmentManager();
-
-        FrameLayout layout = (FrameLayout) findViewById(R.id.main_frame);
 
         if (id == R.id.nav_home) {
             // muda para a tela principal
-
-            layout.setVisibility(View.INVISIBLE);
-
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new MainFragment()).commit();
-
+            int visible = layout.getVisibility();
+            if (visible != 0) {
+                layout.setVisibility(View.VISIBLE);
+            }
 
         } else if (id == R.id.nav_send) {
             // muda para o voto
-            layout.setVisibility(View.INVISIBLE);
+            if (logSuccess == "YES")
+            {
+                layout.setVisibility(View.INVISIBLE);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, new VoteFragment()).commit();
+            }
+            else Toast.makeText(getApplicationContext(), "Realize seu Login pelo Facebook", Toast.LENGTH_LONG).show();
 
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new VoteFragment()).commit();
         } else if (id == R.id.nav_ranking) {
             // muda para o ranking
             layout.setVisibility(View.INVISIBLE);
-
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new RankingFragment()).commit();
+
         } else if (id == R.id.nav_gallery) {
             // muda para a galeria
             layout.setVisibility(View.INVISIBLE);
-
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new GalleryFragment()).commit();
+
         } else if (id == R.id.nav_schedule) {
             // muda para a programação
             layout.setVisibility(View.INVISIBLE);
-
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new ScheduleFragment()).commit();
+
         } else if (id == R.id.nav_manage) {
             // muda para configurações
+            layout.setVisibility(View.INVISIBLE);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new SettingsFragment()).commit();
+
         } else if (id == R.id.nav_help) {
             // muda para ajuda
         }
