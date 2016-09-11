@@ -25,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -48,8 +49,10 @@ import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 import br.com.cp2ejr.tonafetin2016.Controls.HTTPControl;
 import br.com.cp2ejr.tonafetin2016.Models.User;
@@ -61,25 +64,18 @@ import static br.com.cp2ejr.tonafetin2016.R.id.voterelativelayout;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    LoginButton loginButton;
-    User user;
     CallbackManager callbackManager;
-    TextView tvUserName;
+    TextView tvUserName, tvCountDown;
     ImageView ivUserFacebook;
-    Button btVoteNow;
-    FrameLayout layout;
-    String logSuccess;
 
+    FrameLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(getApplication());
-        setContentView(R.layout.activity_main);
 
-        user = new User();
+        setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -95,83 +91,13 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        btVoteNow = (Button) findViewById(R.id.btnVoteNow);
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList("public_profile"));
+        tvCountDown = (TextView) findViewById(R.id.contagem);
 
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                loginButton.setVisibility(View.INVISIBLE);
-                btVoteNow.setVisibility(View.VISIBLE);
-                logSuccess = "YES";
-
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-
-                                JSONObject jsonObject = new JSONObject();
-                                // Application code
-                                try {
-                                    String id = object.getString("id");
-                                    String name = object.getString("name");
-
-
-                                    tvUserName.setText(name);
-
-                                    JSONObject jsonPicture = new JSONObject(object.
-                                                                    getString("picture"));
-                                    JSONObject jsonData = new JSONObject(jsonPicture.
-                                                                    getString("data"));
-
-                                    user.setPhotoUrl(jsonData.getString("url"));
-
-                                    jsonObject.put("idUserFacebook", user.getId());
-                                    jsonObject.put("name", user.getName());
-                                }
-                                catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                                ContentValues params = new ContentValues();
-                                params.put("json_str", jsonObject.toString());
-
-                                HTTPControl httpControl =
-                                        new HTTPControl(
-                                                "http://www.cp2ejr.com.br/to_na_fetin/InsertUser.php",
-                                                params);
-                                //enviar o json para o server aqui
-                            }
-
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,link");
-                request.setParameters(parameters);
-                request.executeAsync();
-
-            }
-
-            @Override
-            public void onCancel() {}
-
-            @Override
-            public void onError(FacebookException error) {
-                if(checkConnection()) {
-                    Toast.makeText(getApplicationContext(), "Erro ao fazer login com o Facebook. Favor tentar novamente.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Erro ao fazer login com o Facebook. Favor verificar a conexão com a internet.", Toast.LENGTH_LONG).show();
-                }
-            }
-
-        });
 
         Button btnVoteNow = (Button) findViewById(R.id.btnVoteNow);
         btnVoteNow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //vai pra tela de voto
-
                 layout = (FrameLayout) findViewById(R.id.main_frame);
                 android.app.FragmentManager fragmentManager = getFragmentManager();
                 layout.setVisibility(View.INVISIBLE);
@@ -187,20 +113,6 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
     }
 
-    private boolean checkConnection() {
-        boolean connected;
-
-        ConnectivityManager conectivtyManager = (ConnectivityManager) getApplicationContext().
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        if (conectivtyManager.getActiveNetworkInfo() != null
-                && conectivtyManager.getActiveNetworkInfo().isAvailable()
-                && conectivtyManager.getActiveNetworkInfo().isConnected()) {
-            connected = true;
-        } else connected = false;
-
-        return connected;
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -256,13 +168,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
             // muda para o voto
-            if (logSuccess == "YES")
-            {
-                layout.setVisibility(View.INVISIBLE);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, new VoteFragment()).commit();
-            }
-            else Toast.makeText(getApplicationContext(), "Realize seu Login pelo Facebook", Toast.LENGTH_LONG).show();
+           layout.setVisibility(View.INVISIBLE);
+           fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new VoteFragment()).commit();
 
         } else if (id == R.id.nav_ranking) {
             // muda para o ranking
