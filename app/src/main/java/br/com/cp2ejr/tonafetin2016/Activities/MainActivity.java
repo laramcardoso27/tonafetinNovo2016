@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity
             // muda para a galeria
             layout.setVisibility(View.INVISIBLE);
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new GalleryFragment()).commit();
+                    .replace(R.id.content_frame, new InstagramFragment()).commit();
 
         } else if (id == R.id.nav_schedule) {
             // muda para a programação
