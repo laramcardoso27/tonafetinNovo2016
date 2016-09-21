@@ -190,12 +190,6 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new ScheduleFragment()).commit();
 
-        } else if (id == R.id.nav_manage) {
-            // muda para configurações
-            layout.setVisibility(View.INVISIBLE);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new SettingsFragment()).commit();
-
         } else if (id == R.id.nav_help) {
             // muda para ajuda
         }

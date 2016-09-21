@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/com.facebook"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/voterelativelayout">
+
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_projects_vote"
+        android:contextClickable="false"
+        android:visibility="invisible"/>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        facebook:confirm_logout="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="320dp"
+        android:layout_height="30dp"
+        android:id="@+id/iv_faceboo_logout"
+        android:src="@drawable/logofetin"
+        android:visibility="invisible"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp" />
+
+
+    <TextView
+        android:id="@+id/tv_login_facebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="inherit"
+        android:textColor="#FFA513"
+        android:text="Faça login com o facebook para votar!"
+        android:layout_marginTop="200dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Não postaremos nada em seu Facebook, o login é somente para a validação do voto."
+        android:textColor="@android:color/darker_gray"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="180dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#FFF"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Obrigado pelo seu voto."
+        android:id="@+id/tv_thanks_initial"
+        android:visibility="invisible"/>
+
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/iv_icon_vote"
+        android:src="@drawable/logofetin"
+        android:gravity="center_horizontal|bottom"
+        android:layout_alignBottom="@+id/tv_login_facebook"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+
+</RelativeLayout>

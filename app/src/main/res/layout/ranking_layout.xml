@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rankingrelativelayout">
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1"
+        android:id="@+id/tableLayout">
+
+        <TableRow
+            android:layout_height="50dp"
+            android:layout_width="fill_parent"
+            android:background="#FFF">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:textColor="#f27522"
+                android:textSize="30dp"
+                android:text="Pos."
+                android:id="@+id/tv_0"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#f27522"
+                android:textSize="30dp"
+                android:layout_gravity="center"
+                android:text="Projeto"
+                android:id="@+id/tv_1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#f27522"
+                android:layout_marginRight="5dp"
+                android:textSize="30dp"
+                android:text="Votos"
+                android:id="@+id/tv_2"
+                android:layout_gravity="center" />
+
+
+        </TableRow>
+
+    </TableLayout>
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_view_ranking"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tableLayout" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#FFF"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Favor verificar conexão com a internet."
+        android:id="@+id/tv_internet_ranking"
+        android:layout_gravity="center_horizontal" />
+
+
+</RelativeLayout>
