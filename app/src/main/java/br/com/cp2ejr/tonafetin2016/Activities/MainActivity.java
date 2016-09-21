@@ -162,10 +162,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // muda para a tela principal
-            int visible = layout.getVisibility();
-            if (visible != 0) {
-                layout.setVisibility(View.VISIBLE);
-            }
+            layout.setVisibility(View.INVISIBLE);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new MainFragment()).commit();
 
         } else if (id == R.id.nav_send) {
             // muda para o voto
